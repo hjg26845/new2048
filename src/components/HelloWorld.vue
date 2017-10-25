@@ -9,8 +9,15 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+  import AlloyFinger from 'alloyfinger/alloy_finger' // 手势库
+  import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
   import { Grid, GridItem } from 'vux'
   import $ from 'jquery'
+
+  Vue.use(AlloyFingerVue, {
+    AlloyFinger
+  })
 
   export default {
     data: function () {
@@ -30,22 +37,24 @@
     methods: {
       initCss: function () {
         let gwidth = $('#grid-16 .weui-grid').width()
-        $('#grid-16 .weui-grid').css({'padding': 0, 'line-height': gwidth + 'px'})
+        $('#grid-16 .weui-grid').css({'line-height': gwidth + 'px'})
         $('#grid-16 .weui-grid').height(gwidth)
       },
-      getKeyup: function (e) {
-        let code = e.keyCode
+      moveTo: function (code) {
+        let oldV = this.gridList.toString()
         // 左 37 上 38 又 39 下 40
-        if (code === 37) {
-          this.moveByRowL(code)
-        } else if (code === 39) {
-          this.moveByRowR(code)
-        } else if (code === 38) {
+        if (code === 'Left') {
+          this.moveByRowL()
+        } else if (code === 'Right') {
+          this.moveByRowR()
+        } else if (code === 'Up') {
           this.moveByColU()
-        } else if (code === 40) {
+        } else if (code === 'Down') {
           this.moveByColD()
         }
-        this.createRandom()
+        if (this.gridList.toString() !== oldV) {
+          this.createRandom()
+        }
       },
       createRandom: function () {
         let notZero = []
@@ -105,7 +114,7 @@
         }
       },
       calArrayToL: function (arr) {
-        for (let i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length - 1; i++) {
           for (let j = i + 1; j < arr.length; j++) {
             if (arr[i] === 0 && arr[j] !== 0) {
               arr[i] = arr[j]
@@ -113,6 +122,9 @@
             } else if (arr[i] !== 0 && arr[i] === arr[j]) {
               arr[i] *= 2
               arr[j] = 0
+              j = arr.length
+            } else if (arr[i] !== 0 && arr[j] !== 0 && arr[i] !== arr[j]) {
+              j = arr.length
             }
           }
         }
@@ -123,14 +135,40 @@
       this.$nextTick(function () {
         // Code that will run only after the
         // entire view has been rendered
+        document.body.addEventListener('touchmove', function (evt) {
+          if (!evt._isScroller) {
+            evt.preventDefault()
+          }
+        })
         this.initCss()
         // 初始化生成两个随机数
         this.createRandom()
         this.createRandom()
         let _this = this
         document.onkeydown = function (e) {
-          _this.getKeyup(e)
+          // 左 37 上 38 又 39 下 40
+          console.log(e.keyCode)
+          switch (e.keyCode) {
+            case 37:
+              _this.moveTo('Left')
+              break
+            case 38:
+              _this.moveTo('Up')
+              break
+            case 39:
+              _this.moveTo('Right')
+              break
+            case 40:
+              _this.moveTo('Down')
+              break
+          }
         }
+        var af = new AlloyFinger(document.getElementById('grid-16'), {
+          swipe: function (evt) {
+            _this.moveTo(evt.direction)
+          }
+        })
+        af.on('touchStart', function () {})
       })
     }
   }
