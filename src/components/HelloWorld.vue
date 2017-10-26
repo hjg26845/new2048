@@ -1,24 +1,24 @@
 <template>
   <div id="grid-16">
-    <grid v-for="list in gridList">
-      <grid-item v-for="item in list">
-        {{ item > 0 ? item : '' }}
-      </grid-item>
-    </grid>
+    <Grid v-for="list in gridList">
+      <div :class="['weui-grid', 'weui-grid2']" v-for="item in list">
+        <span>{{ item > 0 ? item : '' }}</span>
+      </div>
+    </Grid>
   </div>
 </template>
 
 <script>
   import Vue from 'vue'
+  import Afe from 'amfe-flexible'
   import AlloyFinger from 'alloyfinger/alloy_finger' // 手势库
   import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
   import { Grid, GridItem } from 'vux'
-  import $ from 'jquery'
-
+ // import $ from 'n-zepto'
   Vue.use(AlloyFingerVue, {
     AlloyFinger
   })
-
+  Vue.use(Afe)
   export default {
     data: function () {
       return {
@@ -36,9 +36,9 @@
     },
     methods: {
       initCss: function () {
-        let gwidth = $('#grid-16 .weui-grid').width()
-        $('#grid-16 .weui-grid').css({'line-height': gwidth + 'px'})
-        $('#grid-16 .weui-grid').height(gwidth)
+//        let gwidth = $('#grid-16 .weui-grid').width()
+//        $('#grid-16 .weui-grid').css({'line-height': gwidth + 'px'})
+//        $('#grid-16 .weui-grid').height(gwidth)
       },
       moveTo: function (code) {
         let oldV = this.gridList.toString()
@@ -147,7 +147,6 @@
         let _this = this
         document.onkeydown = function (e) {
           // 左 37 上 38 又 39 下 40
-          console.log(e.keyCode)
           switch (e.keyCode) {
             case 37:
               _this.moveTo('Left')
@@ -174,14 +173,49 @@
   }
 </script>
 
+<!--<style lang="less">
+  @import '~vux/src/styles/1px.less';
+</style>-->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .grid-center {
-    display: block;
-    text-align: center;
-    color: #666;
+  #grid-16 {
+    width: 8rem;
+    margin: 0 auto;
+  }
+  .weui-grids + .weui-grids:before{
+    border-top:none;
   }
   .weui-grid{
+    width:2rem;
+    height: 2rem;
     padding: 0;
+    line-height: 2rem;
   }
+  .weui-grid > span {
+    z-index: 1111;
+  }
+  .weui-grid .item-bg0 {
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: #CCC0B2;
+    z-index: 1110;
+    position: absolute;
+    left: 0.1rem;
+    top: 0.1rem;
+  }
+  .weui-grid .item-bg2 {background-color: #eee4da;}
+  .weui-grid .item-bg4 {background-color: #eee4da;}
+  .weui-grid .item-bg8 {background-color: #eee4da;}
+  .weui-grid .item-bg16 {background-color: #eee4da;}
+  .weui-grid .item-bg32 {background-color: #eee4da;}
+  .weui-grid .item-bg64 {background-color: #eee4da;}
+  .weui-grid .item-bg128 {background-color: #eee4da;}
+  .weui-grid .item-bg512 {background-color: #eee4da;}
+  .weui-grid .item-bg1024 {background-color: #eee4da;}
+  .weui-grid .item-bg2048 {background-color: #eee4da;}
+  .weui-grid .item-bg4096 {background-color: #eee4da;}
+  .weui-grid .item-bg8192 {background-color: #eee4da;}
+  .weui-grid .item-bg16384 {background-color: #eee4da;}
+  .weui-grids {background-color: #BAAC9F;}
 </style>
+

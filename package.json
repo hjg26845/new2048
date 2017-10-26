@@ -12,12 +12,13 @@
   },
   "dependencies": {
     "alloyfinger": "^0.1.10",
-    "jquery": "^3.2.1",
+    "amfe-flexible": "^2.2.1",
     "vue": "^2.5.2",
     "vue-loader": "^13.3.0",
     "vue-router": "^3.0.1",
     "vux": "^2.6.5",
-    "vux-loader": "^1.1.14-rc.1"
+    "vux-loader": "^1.1.14-rc.1",
+    "n-zepto": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -44,6 +45,7 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "eventsource-polyfill": "^0.9.6",
+    "exports-loader": "^0.6.4",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
@@ -57,6 +59,7 @@
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
     "rimraf": "^2.6.0",
+    "script-loader": "^0.7.2",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
     "style-loader": "^0.19.0",
